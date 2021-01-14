@@ -1,0 +1,13 @@
+---
+  - name: Assign switch loop variable to local switch reference variable.
+    set_fact:
+      this_switch: "{{ switch_looper }}"
+
+  - name: Debug info on the current switch.
+    debug: var=this_switch.name
+
+  - name: "Configure all VLAN's on switch."
+    include_tasks: 11_tplink_configure_vlan.yaml
+    with_dict: "{{ vlan_lookup }}"
+    loop_control:
+      loop_var: vlan_looper

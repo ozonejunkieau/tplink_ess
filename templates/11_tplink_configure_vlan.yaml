@@ -1,0 +1,27 @@
+---
+
+  - set_fact:
+      this_vlan: "{{ vlan_looper.value }}"
+
+
+  - name: Assemble lists of port configurations into vlan centric configuration.
+    set_fact: 
+      this_vlan_vid: "{{ this_vlan.vlan }}"
+      this_vlan_name: "{{ this_vlan.name }}"
+      this_pvid_list: "{{ this_switch.port_configuration | selectattr('pvid', 'equalto', this_vlan) | map(attribute='port') | list }}"
+      this_tagged_list: "{{ this_switch.port_configuration | selectattr('tagged', 'defined')| selectattr('tagged', 'contains', this_vlan) | map(attribute='port') | list }}"
+      this_untagged_list: "{{ this_switch.port_configuration | selectattr('untagged', 'defined')| selectattr('untagged', 'contains', this_vlan) | map(attribute='port') | list }}"
+
+  - name: Summarise vlan configuration to simplify code readability.
+    set_fact:
+      len_pvid: "{{ this_pvid_list | length }}"
+      len_tagged: "{{ this_tagged_list | length }}"
+      len_untagged: "{{ this_untagged_list | length }}"
+
+  - name: Determine if current VLAN exists on current switch.
+    set_fact: 
+      vlan_on_this_switch: "{{ len_pvid | int > 0 or len_tagged | int > 0 or len_untagged | int > 0 }}"
+
+  - debug: var=this_vlan_name
+
+  - debug: var=vlan_on_this_switch
