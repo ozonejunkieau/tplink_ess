@@ -153,22 +153,22 @@ The below pair of tasks download the switch configuration and dump it in base64 
 ### Single VLAN Configuration
 Due to the way the interface and consequently the *"API"* works, the below task is used to configure a specific VLAN on the switch. This configuration includes all tagged port members, untagged port members and a list of ports that should have this VLAN as a PVID.
 
-  - name: Set vlan config
-    tp_ess_set_vlan:
-      name: vlan_num_130
-      vid: 130
-      host: 192.0.2.10
-      username: admin
-      password: admin
-      pvid_ports:
-        - 5
-      untagged_ports:
-        - 5
-      tagged_ports: 
-        - 4
-    delegate_to: localhost
-    diff: yes
-    run_once: yes
+    - name: Set vlan config
+      tp_ess_set_vlan:
+        name: vlan_num_130
+        vid: 130
+        host: 192.0.2.10
+        username: admin
+        password: admin
+        pvid_ports:
+          - 5
+        untagged_ports:
+          - 5
+        tagged_ports: 
+          - 4
+      delegate_to: localhost
+      diff: yes
+      run_once: yes
 
 ### LED Control
 As mentioned, this allows all LED's to be disabled.

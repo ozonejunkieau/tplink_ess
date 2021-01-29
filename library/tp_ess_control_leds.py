@@ -2,7 +2,7 @@
 
 import yaml
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.tp_ess_common import TPLinkSession
+from tplink_easysmartswitch import TPLinkSession
 
 def main():
     # Define options accepted by the module. ❶
